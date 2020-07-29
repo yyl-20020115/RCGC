@@ -7,7 +7,7 @@ std::vector<void*> rcgc_base::_wilds;
 
 //this relationship is simplified,
 //and represented by counting plus one.
-void rcgc_base::AddRef(void* ptr)
+void* rcgc_base::AddRef(void* ptr)
 {
     if (ptr != nullptr) {
         std::lock_guard<std::mutex> lock(_m);
@@ -19,9 +19,10 @@ void rcgc_base::AddRef(void* ptr)
             p->second++;
         }
     }
+    return ptr;
 }
 
-void rcgc_base::RelRef(void* ptr)
+void* rcgc_base::RelRef(void* ptr)
 {
     if (ptr != nullptr) {
         std::lock_guard<std::mutex> lock(_m);
@@ -33,6 +34,7 @@ void rcgc_base::RelRef(void* ptr)
             }
         }
     }
+    return ptr;
 }
 
 bool rcgc_base::SetAutoCollect(bool ac)

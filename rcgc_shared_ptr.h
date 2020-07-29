@@ -9,8 +9,8 @@ public:
     static bool GetAutoCollect();
     static void Collect(bool threading = false, bool join = false);
 protected:
-    static void AddRef(void* ptr);
-    static void RelRef(void* ptr);
+    static void* AddRef(void* ptr);
+    static void* RelRef(void* ptr);
     static void CollectThread();
     static void Collect(std::vector<void*>& p_wilds);
 protected:
