@@ -1,7 +1,7 @@
 #include "rcgc_shared_ptr.h"
 
-std::mutex rcgc_base::m;
-bool rcgc_base::ac = false;
+std::mutex rcgc_base::_m;
+bool rcgc_base::_ac = false;
 std::unordered_map<void*, size_t> rcgc_base::_refs;
 std::vector<void*> rcgc_base::_wilds;
 
@@ -10,7 +10,7 @@ std::vector<void*> rcgc_base::_wilds;
 void rcgc_base::AddRef(void* ptr)
 {
     if (ptr != nullptr) {
-        std::lock_guard<std::mutex> lock(m);
+        std::lock_guard<std::mutex> lock(_m);
         auto p = _refs.find(ptr);
         if (p == _refs.end()) {
             _refs.insert(std::make_pair(ptr, 1));
@@ -21,10 +21,10 @@ void rcgc_base::AddRef(void* ptr)
     }
 }
 
-void rcgc_base::ReleaseRef(void* ptr)
+void rcgc_base::RelRef(void* ptr)
 {
     if (ptr != nullptr) {
-        std::lock_guard<std::mutex> lock(m);
+        std::lock_guard<std::mutex> lock(_m);
         auto p = _refs.find(ptr);
         if (p != _refs.end()) {
             if (--p->second == 0) {
@@ -35,14 +35,14 @@ void rcgc_base::ReleaseRef(void* ptr)
     }
 }
 
-bool rcgc_base::SetAutoCollect(bool _ac)
+bool rcgc_base::SetAutoCollect(bool ac)
 {
-    return ac = _ac;
+    return _ac = ac;
 }
 
 bool rcgc_base::GetAutoCollect()
 {
-    return ac;
+    return _ac;
 }
 
 void rcgc_base::Collect(bool threading, bool join)
@@ -67,7 +67,7 @@ void rcgc_base::CollectThread()
 {
     std::vector<void*> p_wilds;
     {
-        std::lock_guard<std::mutex> lock(m);
+        std::lock_guard<std::mutex> lock(_m);
         p_wilds = _wilds;
         _wilds.clear();
     }
