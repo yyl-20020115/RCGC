@@ -85,9 +85,8 @@ void rcgc_base::Collect(std::vector<void*>& p_wilds)
 			//delete p->first;
 			//NOTICE: use free instead of delete to avoid double calling destructor
 			free(*p);
-			p = p_wilds.erase(p);
-			if (p == p_wilds.end())break;
 		}
 	}
+	p_wilds.clear();
 }
 
