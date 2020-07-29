@@ -38,7 +38,7 @@ And the speed is much faster than conventional GC.
 I didn't see fatal design defact for now. However, due to limited time, I haven't done enough test
 for performance or usibility efficiency.
 
-Any ideas are all welcomed, and please write me:
+Ideas are all welcomed, and please write me:
 yyl_20050115@hotmail.com
 
 Best Regards,
