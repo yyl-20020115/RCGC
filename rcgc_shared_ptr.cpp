@@ -18,10 +18,10 @@ void* rcgc_base::AddRef(void* ptr)
         else {
             p->second++;
         }
-        //check if RelRef removed the ptr, undo if found
-        if (_wilds.size() > 0 && _wilds.back() == ptr) {
-            _wilds.pop_back();
-        }
+        ////check if RelRef removed the ptr, undo if found
+        //if (_wilds.size() > 0 && _wilds.back() == ptr) {
+        //    _wilds.pop_back();
+        //}
     }
     return ptr;
 }
