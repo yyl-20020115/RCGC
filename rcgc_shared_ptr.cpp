@@ -4,6 +4,7 @@ std::mutex rcgc_base::m;
 bool rcgc_base::ac = false;
 int rcgc_base::index = 0;
 std::unordered_map<void*, int> rcgc_base::_refs;
+std::vector<void*> rcgc_base::_wilds;
 
 long long rcgc_base::NextIndex()
 {
@@ -32,7 +33,10 @@ void rcgc_base::RemoveRelation(void* ptr, long long id)
 		std::lock_guard<std::mutex> lock(m);
 		auto p = _refs.find(ptr);
 		if (p != _refs.end()) {
-			p->second--;
+			if (--p->second == 0) {
+				_refs.erase(p);
+				_wilds.push_back(ptr);
+			}
 		}
 	}
 }
@@ -59,29 +63,30 @@ void rcgc_base::Collect(bool threading, bool join)
 		}
 	}
 	else {
-		Collect(_refs);
+		Collect(_wilds);
 	}
 }
 
 void rcgc_base::CollectThread()
 {
-	std::unordered_map<void*, int> p_refs;
+	std::vector<void*> p_refs;
 	{
 		std::lock_guard<std::mutex> lock(m);
-		p_refs = _refs;
+		p_refs = _wilds;
+		_wilds.clear();
 	}
 	Collect(p_refs);
 }
 
-void rcgc_base::Collect(std::unordered_map<void*, int>& p_refs)
+void rcgc_base::Collect(std::vector<void*>& p_wilds)
 {	
-	for (auto p = p_refs.begin(); p != p_refs.end(); ++p) {
-		if (p->second == 0) {
+	for (auto p = p_wilds.begin(); p != p_wilds.end(); ++p) {
+		if (*p) {
 			//delete p->first;
 			//NOTICE: use free instead of delete to avoid double calling destructor
-			free(p->first);
-			p = p_refs.erase(p);
-			if (p == p_refs.end())break;
+			free(*p);
+			p = p_wilds.erase(p);
+			if (p == p_wilds.end())break;
 		}
 	}
 }

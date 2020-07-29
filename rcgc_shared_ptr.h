@@ -14,12 +14,13 @@ protected:
 	static void AddRelation(void* ptr, long long id);
 	static void RemoveRelation(void* ptr, long long id);
 	static void CollectThread();
-	static void Collect(std::unordered_map<void*, int>& p_refs);
+	static void Collect(std::vector<void*>& p_wilds);
 protected:
 	static bool ac;
 	static int index;
 	static std::mutex m;
 	static std::unordered_map<void*, int> _refs;
+	static std::vector<void*> _wilds;
 };
 
 template<class PTR>
