@@ -32,7 +32,9 @@ public:
 	rcgc_shared_ptr(PTR* ptr = nullptr) :_ptr(ptr), _id(NextIndex()) {
 		AddRelation(this->_ptr, this->_id);
 	}
-	
+	rcgc_shared_ptr(const rcgc_shared_ptr& src):_ptr(src._ptr), _id(NextIndex()) {
+		AddRelation(this->_ptr, this->_id);
+	}
 	virtual ~rcgc_shared_ptr() {
 		this->Dispose();
 		if (ac) {

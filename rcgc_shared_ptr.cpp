@@ -69,13 +69,13 @@ void rcgc_base::Collect(bool threading, bool join)
 
 void rcgc_base::CollectThread()
 {
-	std::vector<void*> p_refs;
+	std::vector<void*> p_wilds;
 	{
 		std::lock_guard<std::mutex> lock(m);
-		p_refs = _wilds;
+		p_wilds = _wilds;
 		_wilds.clear();
 	}
-	Collect(p_refs);
+	Collect(p_wilds);
 }
 
 void rcgc_base::Collect(std::vector<void*>& p_wilds)
