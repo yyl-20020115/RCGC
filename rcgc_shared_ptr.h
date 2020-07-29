@@ -10,16 +10,16 @@ public:
 	static bool GetAutoCollect();
 	static void Collect(bool threading =false, bool join = false);
 protected:
-	static long long NextIndex();
-	static void AddRelation(void* ptr, long long id);
-	static void RemoveRelation(void* ptr, long long id);
+	static size_t NextIndex();
+	static void AddRelation(void* ptr, size_t id);
+	static void RemoveRelation(void* ptr, size_t id);
 	static void CollectThread();
 	static void Collect(std::vector<void*>& p_wilds);
 protected:
 	static bool ac;
-	static int index;
+	static size_t index;
 	static std::mutex m;
-	static std::unordered_map<void*, int> _refs;
+	static std::unordered_map<void*, size_t> _refs;
 	static std::vector<void*> _wilds;
 };
 
@@ -72,6 +72,6 @@ public:
 		return this->_id;
 	}
 protected:
-	const long long _id;
+	const size_t _id;
 	PTR* _ptr;
 };
