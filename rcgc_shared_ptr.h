@@ -48,7 +48,7 @@ public:
         }
     }
     rcgc_shared_ptr& operator = (rcgc_shared_ptr<PTR>& src) {
-        if (this->_ptr != src._ptr) {
+        if (this->_ptr == src._ptr) {
         }
         else if (src._ptr != nullptr) {
             RelRef(this->_ptr);
