@@ -1,7 +1,6 @@
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
-#include <iostream>
 #include "rcgc_shared_ptr.h"
 
 class B;
