@@ -77,7 +77,9 @@ void rcgc_base::Collect(std::unordered_map<void*, int>& p_refs)
 {	
 	for (auto p = p_refs.begin(); p != p_refs.end(); ++p) {
 		if (p->second == 0) {
-			delete p->first;
+			//delete p->first;
+			//NOTICE: use free instead of delete to avoid double calling destructor
+			free(p->first);
 			p = p_refs.erase(p);
 			if (p == p_refs.end())break;
 		}
