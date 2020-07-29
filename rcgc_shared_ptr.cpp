@@ -53,17 +53,19 @@ bool rcgc_base::GetAutoCollect()
 
 void rcgc_base::Collect(bool threading, bool join)
 {
-	if (threading) {
-		std::thread t(CollectThread);
-		if (join) {
-			t.join();
+	if (_wilds.size() > 0) {
+		if (threading) {
+			std::thread t(CollectThread);
+			if (join) {
+				t.join();
+			}
+			else {
+				t.detach();
+			}
 		}
 		else {
-			t.detach();
+			Collect(_wilds);
 		}
-	}
-	else {
-		Collect(_wilds);
 	}
 }
 
@@ -79,14 +81,16 @@ void rcgc_base::CollectThread()
 }
 
 void rcgc_base::Collect(std::vector<void*>& p_wilds)
-{	
-	for (auto p = p_wilds.begin(); p != p_wilds.end(); ++p) {
-		if (*p) {
-			//delete p->first;
-			//NOTICE: use free instead of delete to avoid double calling destructor
-			free(*p);
+{
+	if (p_wilds.size() > 0) {
+		for (auto p = p_wilds.begin(); p != p_wilds.end(); ++p) {
+			if (*p) {
+				//delete p->first;
+				//NOTICE: use free instead of delete to avoid double calling destructor
+				free(*p);
+			}
 		}
+		p_wilds.clear();
 	}
-	p_wilds.clear();
 }
 
