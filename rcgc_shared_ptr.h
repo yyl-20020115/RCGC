@@ -10,14 +10,12 @@ public:
     static bool GetAutoCollect();
     static void Collect(bool threading = false, bool join = false);
 protected:
-    static size_t NextIndex();
-    static void AddRelation(void* ptr, size_t id);
-    static void RemoveRelation(void* ptr, size_t id);
+    static void AddRef(void* ptr);
+    static void ReleaseRef(void* ptr);
     static void CollectThread();
     static void Collect(std::vector<void*>& p_wilds);
 protected:
     static bool ac;
-    static size_t index;
     static std::mutex m;
     static std::unordered_map<void*, size_t> _refs;
     static std::vector<void*> _wilds;
@@ -29,11 +27,11 @@ class rcgc_shared_ptr
 {
 public:
 
-    rcgc_shared_ptr(PTR* ptr = nullptr) :_ptr(ptr), _id(NextIndex()) {
-        AddRelation(this->_ptr, this->_id);
+    rcgc_shared_ptr(PTR* ptr = nullptr) :_ptr(ptr) {
+        AddRef(this->_ptr);
     }
-    rcgc_shared_ptr(const rcgc_shared_ptr& src) :_ptr(src._ptr), _id(NextIndex()) {
-        AddRelation(this->_ptr, this->_id);
+    rcgc_shared_ptr(const rcgc_shared_ptr& src) :_ptr(src._ptr){
+        AddRef(this->_ptr);
     }
     virtual ~rcgc_shared_ptr() {
         this->Dispose();
@@ -49,15 +47,15 @@ public:
 
             _ptr->~PTR();
 
-            RemoveRelation(_ptr, _id);
+            ReleaseRef(_ptr);
         }
     }
     rcgc_shared_ptr& operator = (rcgc_shared_ptr<PTR>& src) {
         if (this->_ptr == src._ptr)
             return *this;
         else if (src._ptr != nullptr) {
-            RemoveRelation(this->_ptr, this->_id);
-            AddRelation(this->_ptr = src._ptr, this->_id);
+            ReleaseRef(this->_ptr);
+            AddRef(this->_ptr = src._ptr);
         }
         return *this;
     }
@@ -68,10 +66,6 @@ public:
     PTR* operator->() {
         return _ptr;
     }
-    long long GetId() {
-        return this->_id;
-    }
 protected:
-    const size_t _id;
     PTR* _ptr;
 };

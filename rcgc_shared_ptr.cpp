@@ -2,18 +2,12 @@
 
 std::mutex rcgc_base::m;
 bool rcgc_base::ac = false;
-size_t rcgc_base::index = 0;
 std::unordered_map<void*, size_t> rcgc_base::_refs;
 std::vector<void*> rcgc_base::_wilds;
 
-size_t rcgc_base::NextIndex()
-{
-    return index++;
-}
-
 //this relationship is simplified,
 //and represented by counting plus one.
-void rcgc_base::AddRelation(void* ptr, size_t id)
+void rcgc_base::AddRef(void* ptr)
 {
     if (ptr != nullptr) {
         std::lock_guard<std::mutex> lock(m);
@@ -27,7 +21,7 @@ void rcgc_base::AddRelation(void* ptr, size_t id)
     }
 }
 
-void rcgc_base::RemoveRelation(void* ptr, size_t id)
+void rcgc_base::ReleaseRef(void* ptr)
 {
     if (ptr != nullptr) {
         std::lock_guard<std::mutex> lock(m);
