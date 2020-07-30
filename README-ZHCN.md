@@ -97,7 +97,7 @@ m_RefCount的初始值等细节上的问题。
 STOP-THE-WORLD高效得多了。
 
 
-欢迎批评指教：
+恳请批评指正：
 
 yyl_20050115@hotmail.com
 
