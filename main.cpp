@@ -72,7 +72,6 @@ int main()
 
     rcgc_shared_ptr<A> ptr_A(new A);
     rcgc_shared_ptr<B> ptr_B(new B);
-    std::vector<A> s;
 
     ptr_A->_ptr_outA1 = ptr_A;
     ptr_A->_ptr_outB1 = ptr_B;
