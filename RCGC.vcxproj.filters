@@ -21,6 +21,9 @@
     <ClCompile Include="rcgc_shared_ptr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="bad_sample.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rcgc_shared_ptr.h">

@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bad_sample.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="rcgc_shared_ptr.cpp" />
   </ItemGroup>
