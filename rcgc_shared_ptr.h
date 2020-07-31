@@ -32,7 +32,10 @@ public:
     rcgc_shared_ptr(const rcgc_shared_ptr& src) :_ptr(src._ptr){
         AddRef(this->_ptr);
     }
-    virtual ~rcgc_shared_ptr() {
+    //NOTICE: do not use any virtual function to avoid 
+    //building virtual function table for this pointer
+    //virtual 
+    ~rcgc_shared_ptr() {
         this->Dispose();
         if (_ac) {
             Collect();
