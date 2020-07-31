@@ -1,6 +1,8 @@
+#ifdef _WIN32
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
+#endif
 #include "rcgc_shared_ptr.h"
 
 class B;
@@ -27,8 +29,9 @@ public:
 //Here is a simple method to solve circulating reference problem of shared_ptr without using weak_ptr.
 int main()
 {
+#ifdef _WIN32
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-
+#endif
     rcgc_base::SetAutoCollect(true);
 
     rcgc_shared_ptr<A> ptr_A(new A);
