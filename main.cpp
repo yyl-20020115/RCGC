@@ -13,7 +13,9 @@ class A
 public:
     A() : _ptr_outB1()
         , _ptr_outB2() {}
-
+    ~A() {
+        std::cout << "dtor for object of A:" << std::hex << this << std::endl;
+    }
 public:
     rcgc_shared_ptr<A> _ptr_outA1;
     rcgc_shared_ptr<B> _ptr_outB1;
@@ -23,7 +25,9 @@ class B
 {
 public:
     B() :_ptr_outA() {}
-
+    ~B() {
+        std::cout << "dtor for object of B:" << std::hex << this << std::endl;
+    }
 public:
     rcgc_shared_ptr<A> _ptr_outA;
 };
@@ -68,6 +72,7 @@ int main()
 
     rcgc_shared_ptr<A> ptr_A(new A);
     rcgc_shared_ptr<B> ptr_B(new B);
+    std::vector<A> s;
 
     ptr_A->_ptr_outA1 = ptr_A;
     ptr_A->_ptr_outB1 = ptr_B;
@@ -82,7 +87,7 @@ int main()
     {
         rcgc_shared_ptr< C > p2(new C());
         p1 = p2;
-        std::cout <<std::hex<< p1->x << std::endl;
+        std::cout << std::hex << p1->x << std::endl;
     }
     std::cout << std::hex << p1->x << std::endl; // (1)
 
