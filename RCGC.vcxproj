@@ -147,6 +147,7 @@
     <ClInclude Include="rcgc_shared_ptr.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="CMakeLists.txt" />
     <Text Include="README.md" />
   </ItemGroup>
   <ItemGroup>

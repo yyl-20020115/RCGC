@@ -34,6 +34,7 @@
     <Text Include="README.md">
       <Filter>资源文件</Filter>
     </Text>
+    <Text Include="CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README-ZHCN.md">
