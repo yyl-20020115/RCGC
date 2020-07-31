@@ -60,7 +60,12 @@ struct C
 //
 
 
-
+class X {
+public:
+    X() :t(3) {}
+public:
+    int t;
+};
 
 //Here is a simple method to solve circulating reference problem of shared_ptr without using weak_ptr.
 int main()
@@ -98,6 +103,10 @@ int main()
     //rcgc_shared_ptr< E > p2(new E());
     //
     //p->m_b->m_a = p;
+    rcgc_shared_ptr<X> pa(new X);
+    {
+        rcgc_shared_ptr<X> pb(pa);
+    } // ~X is called here
 
-
+    std::cout << pa->t << std::endl;
 }
