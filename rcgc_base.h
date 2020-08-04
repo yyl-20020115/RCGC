@@ -45,6 +45,7 @@ inline void rcgc_base::OnCollecting(RCGCPTR* rcgc)
         //and save the reference
         //and refree the reference in the end of this round.
         _breaks.push_back(reinterpret_cast<void*>(rcgc->get()));
+        rcgc->bind(nullptr);
     }
     else {
         rcgc->disposing();
@@ -64,9 +65,8 @@ inline void rcgc_base::OnCollecting(RCGCPTR* rcgc)
         //this still may results in deep recursives
         //but maybe not as easy.
         for (void* ip : n_breaks) {
-            RCGCPTR* r = new RCGCPTR();
-            r->bind(reinterpret_cast<PTR*>(ip));
-            delete r;
+            RCGCPTR r;
+            r.bind(reinterpret_cast<PTR*>(ip));
         }
     }
 }
