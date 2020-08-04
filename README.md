@@ -24,9 +24,9 @@ Here is the algorithm(It has to be native if we code this algorithm for C#. Ther
 
 
 How does this algorithm work?
-we designed rcgc_shared_ptr which is quite like shared_ptr for C++. But we don't acutally free
+we designed rcgc_ptr which is quite like shared_ptr for C++. But we don't acutally free
 _ptr pointed objects instantly when the reference count is zero. We do not call delete or free(ptr)
-function while decreasing the count of the reference. However, we let the rcgc_shared_ptr does its work
+function while decreasing the count of the reference. However, we let the rcgc_ptr does its work
 on every level of decreasing count, without delete them.
 
 

@@ -141,10 +141,12 @@
   <ItemGroup>
     <ClCompile Include="bad_sample.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="rcgc_shared_ptr.cpp" />
+    <ClCompile Include="rcgc_base.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="rcgc_shared_ptr.h" />
+    <ClInclude Include="rcgc_base.h" />
+    <ClInclude Include="rcgc_d_ptr.h" />
+    <ClInclude Include="rcgc_ptr.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />

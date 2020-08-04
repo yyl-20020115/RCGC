@@ -7,6 +7,6 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     message(STATUS "optional:-std=c++11")
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
-add_executable(rcgc main.cpp rcgc_shared_ptr.cpp) 
+add_executable(rcgc main.cpp rcgc_ptr.cpp) 
  
 target_link_libraries(rcgc pthread)
