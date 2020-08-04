@@ -14,14 +14,17 @@ public:
         AddRef(this->_ptr);
     }
     ~rcgc_ptr() {
-        this->disposing();
-        if (!_cl) {
-            _cl = true;
-            Collect();
-            _cl = false;
-        }
+        OnCollecting<rcgc_ptr,PTR>(this);
     }
 public:
+    void disposing() {
+        PTR* p = this->_ptr;
+        if (p != nullptr) {
+            this->_ptr = nullptr;
+            p->~PTR();
+            RelRef(p);
+        }
+    }
     rcgc_ptr& operator = (rcgc_ptr<PTR>& src) {
         if (this->_ptr == src._ptr) {
         }
@@ -40,14 +43,11 @@ public:
     PTR* operator->() const {
         return this->_ptr;
     }
-protected:
-    void disposing() {
-        PTR* p = this->_ptr;
-        if (p != nullptr) {
-            this->_ptr = nullptr;
-            p->~PTR();
-            RelRef(p);
-        }
+    PTR* get() {
+        return this->_ptr;
+    }
+    PTR* bind(PTR* p) {
+        return this->_ptr = p;
     }
 
 protected:

@@ -1,10 +1,14 @@
 #include "rcgc_ptr.h"
 
 std::mutex rcgc_base::_m;
+int rcgc_base::_dp = 0;
+int rcgc_base::_dm = DefaultMaxDepth;
+
 bool rcgc_base::_ac = false;
 bool rcgc_base::_cl = false;
 std::unordered_map<void*, std::pair<size_t, terminating_function>> rcgc_base::_refs;
 std::vector<std::pair<void*, terminating_function>> rcgc_base::_wilds;
+std::vector<void*> rcgc_base::_breaks;
 
 //this relationship is simplified,
 //and represented by counting plus one.
