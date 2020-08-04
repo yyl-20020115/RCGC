@@ -56,25 +56,30 @@ bool rcgc_base::GetAutoCollect()
 
 void rcgc_base::Collect(bool threading, bool join)
 {
-    if (_wilds.size() > 0) {
+    if (!_cl) {
+        _cl = true;
+        if (_wilds.size() > 0) {
 #if 0
-        //NOTICE:don't use threading if lock is disabled
-        //NOTICE:threading function not tested
-        if (threading) {
-            std::thread t(CollectThread);
-            if (join) {
-                t.join();
+            //NOTICE:don't use threading if lock is disabled
+            //NOTICE:threading function not tested
+            if (threading) {
+                std::thread t(CollectThread);
+                if (join) {
+                    t.join();
+                }
+                else {
+                    t.detach();
+                }
             }
-            else {
-                t.detach();
-            }
-        }
-        else 
+            else
 #endif
-        {
-            Collect(_wilds);
+            {
+                Collect(_wilds);
+            }
         }
+        _cl = false;
     }
+
 }
 
 void rcgc_base::CollectThread()

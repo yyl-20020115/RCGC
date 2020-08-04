@@ -49,11 +49,7 @@ inline void rcgc_base::OnCollecting(RCGCPTR* rcgc)
     else {
         rcgc->disposing();
         if (_ac) {
-            if (!_cl) {
-                _cl = true;
-                Collect();
-                _cl = false;
-            }
+            Collect();
         }
     }
     --_dp;
