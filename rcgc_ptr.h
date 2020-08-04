@@ -46,8 +46,10 @@ public:
     PTR* get() {
         return this->_ptr;
     }
-    PTR* bind(PTR* p) {
-        return this->_ptr = p;
+    PTR* rebind(PTR* p = nullptr) {
+        PTR* op = this->_ptr;
+        this->_ptr = p;
+        return op;
     }
 
 protected:
