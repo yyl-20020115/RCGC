@@ -58,7 +58,7 @@ inline void rcgc_base::OnCollecting(RCGCPTR* rcgc)
         }
     }
     --_dp;
-    if (_dp == 0 && _breaks.size()>0) {
+    if (_dp == 0 && _breaks.size()>0 && _ac) {
         std::vector<void*> n_breaks(_breaks);
         _breaks.clear();
         //try to free the breaks again
