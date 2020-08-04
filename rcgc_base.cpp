@@ -3,19 +3,19 @@
 std::mutex rcgc_base::_m;
 bool rcgc_base::_ac = false;
 bool rcgc_base::_cl = false;
-std::unordered_map<void*, std::pair<size_t, delete_function>> rcgc_base::_refs;
-std::vector<std::pair<void*, delete_function>> rcgc_base::_wilds;
+std::unordered_map<void*, std::pair<size_t, terminating_function>> rcgc_base::_refs;
+std::vector<std::pair<void*, terminating_function>> rcgc_base::_wilds;
 
 //this relationship is simplified,
 //and represented by counting plus one.
-void* rcgc_base::AddRef(void* ptr, delete_function fd)
+void* rcgc_base::AddRef(void* ptr, terminating_function tf)
 {
     if (ptr != nullptr) {
         //NOTICE: lock is disabled for now
         //std::lock_guard<std::mutex> lock(_m);
         auto p = _refs.find(ptr);
         if (p == _refs.end()) {
-            _refs.insert(std::make_pair(ptr, std::make_pair(1,fd)));
+            _refs.insert(std::make_pair(ptr, std::make_pair(1,tf)));
         }
         else {
             p->second.first++;
@@ -75,7 +75,7 @@ void rcgc_base::Collect(bool threading, bool join)
 
 void rcgc_base::CollectThread()
 {
-    std::vector<std::pair<void*, delete_function>> p_wilds;
+    std::vector<std::pair<void*, terminating_function>> p_wilds;
     {
         //NOTICE: lock is disabled for now
         //std::lock_guard<std::mutex> lock(_m);
@@ -85,7 +85,7 @@ void rcgc_base::CollectThread()
     Collect(p_wilds);
 }
 
-void rcgc_base::Collect(std::vector<std::pair<void*, delete_function>>& p_wilds)
+void rcgc_base::Collect(std::vector<std::pair<void*, terminating_function>>& p_wilds)
 {
     if (p_wilds.size() > 0) {
         for (auto p = p_wilds.begin(); p != p_wilds.end(); ++p) {

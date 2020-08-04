@@ -7,6 +7,7 @@
 #include <iostream>
 #include "rcgc_ptr.h"
 #include "rcgc_d_ptr.h"
+#include "rcgc_f_ptr.h"
 
 
 class B;
@@ -40,7 +41,7 @@ class C
 {
 public:
     C() : _ptr_outD1()
-        , _ptr_outD2(){}
+        , _ptr_outD2() {}
     ~C() {
         std::cout << "dtor for object of C:" << std::hex << this << std::endl;
     }
@@ -56,7 +57,7 @@ public:
 class D
 {
 public:
-    D() :_ptr_outC(){}
+    D() :_ptr_outC() {}
     ~D() {
         std::cout << "dtor for object of D:" << std::hex << this << std::endl;
     }
@@ -78,6 +79,43 @@ void C::disposing()
     this->_ptr_outD1.disposing();
     this->_ptr_outD2.disposing();
 }
+
+
+class F;
+class E
+{
+public:
+    E() : _ptr_outF1()
+        , _ptr_outF2() {}
+    ~E() {
+        std::cout << "dtor for object of E:" << std::hex << this << std::endl;
+    }
+public:
+    void finalize() {
+        std::cout << "finalize for object of E:" << std::hex << this << std::endl;
+    }
+public:
+    rcgc_f_ptr<E> _ptr_outE1;
+    rcgc_f_ptr<F> _ptr_outF1;
+    rcgc_f_ptr<F> _ptr_outF2;
+};
+
+class F
+{
+public:
+    F() :_ptr_outE() {}
+    ~F() {
+        std::cout << "dtor for object of F:" << std::hex << this << std::endl;
+    }
+public:
+
+    void finalize() {
+        std::cout << "finalize for object of F:" << std::hex << this << std::endl;
+    }
+public:
+    rcgc_f_ptr<E> _ptr_outE;
+};
+
 
 int main()
 {
@@ -102,5 +140,17 @@ int main()
     ptr_C->_ptr_outD1 = ptr_D;
     ptr_C->_ptr_outD2 = ptr_D;
     ptr_D->_ptr_outC = ptr_C;
+
+    //finalize version: 
+    //if you use rcgc_ptr (not recommanded as standard C++)
+    //you may need a finalize function to be called
+    //right before freeing (takes the job of the original dtor)
+    rcgc_f_ptr<E> ptr_E(new E);
+    rcgc_f_ptr<F> ptr_F(new F);
+
+    ptr_E->_ptr_outE1 = ptr_E;
+    ptr_E->_ptr_outF1 = ptr_F;
+    ptr_E->_ptr_outF2 = ptr_F;
+    ptr_F->_ptr_outE = ptr_E;
 
 }
