@@ -17,7 +17,7 @@ public:
         this->disposing();
         if (!_cl) {
             _cl = true;
-            Collect(false);
+            Collect();
             _cl = false;
         }
     }

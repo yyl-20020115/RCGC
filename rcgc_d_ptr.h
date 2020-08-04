@@ -23,7 +23,7 @@ public:
         if (_ac) {
             if (!_cl) {
                 _cl = true;
-                Collect(true);
+                Collect();
                 _cl = false;
             }
         }

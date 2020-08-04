@@ -10,12 +10,12 @@ class rcgc_base {
 public:
     static bool SetAutoCollect(bool ac);
     static bool GetAutoCollect();
-    static void Collect(bool d_version, bool threading = false, bool join = false);
+    static void Collect(bool threading = false, bool join = false);
 protected:
     static void* AddRef(void* ptr, delete_function fd = nullptr);
     static void* RelRef(void* ptr);
-    static void CollectThread(bool d_version);
-    static void Collect(std::vector<std::pair<void*, delete_function>>& p_wilds, bool d_version = true);
+    static void CollectThread();
+    static void Collect(std::vector<std::pair<void*, delete_function>>& p_wilds);
 protected:
     static bool _cl;
     static bool _ac;

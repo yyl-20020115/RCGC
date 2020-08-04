@@ -50,12 +50,12 @@ bool rcgc_base::GetAutoCollect()
     return _ac;
 }
 
-void rcgc_base::Collect(bool d_version,bool threading, bool join)
+void rcgc_base::Collect(bool threading, bool join)
 {
     if (_wilds.size() > 0) {
         //NOTICE:threading function not tested
         if (threading) {
-            std::thread t(CollectThread, d_version);
+            std::thread t(CollectThread);
             if (join) {
                 t.join();
             }
@@ -65,12 +65,12 @@ void rcgc_base::Collect(bool d_version,bool threading, bool join)
         }
         else 
         {
-            Collect(_wilds, d_version);
+            Collect(_wilds);
         }
     }
 }
 
-void rcgc_base::CollectThread(bool d_version)
+void rcgc_base::CollectThread()
 {
     std::vector<std::pair<void*, delete_function>> p_wilds;
     {
@@ -79,21 +79,16 @@ void rcgc_base::CollectThread(bool d_version)
         p_wilds = _wilds;
         _wilds.clear();
     }
-    Collect(p_wilds, d_version);
+    Collect(p_wilds);
 }
 
-void rcgc_base::Collect(std::vector<std::pair<void*, delete_function>>& p_wilds, bool d_version)
+void rcgc_base::Collect(std::vector<std::pair<void*, delete_function>>& p_wilds)
 {
     if (p_wilds.size() > 0) {
         for (auto p = p_wilds.begin(); p != p_wilds.end(); ++p) {
             if (p->first) {
-                if (d_version) {
-                    if (p->second != nullptr) {
-                        p->second(p->first);
-                    }
-                    else {
-                        free(p->first);
-                    }
+                if (p->second != nullptr) {
+                    p->second(p->first);
                 }
                 else {
                     free(p->first);
