@@ -22,14 +22,6 @@ public:
         }
     }
 public:
-    void disposing() {
-        if (this->_ptr != nullptr) {
-            PTR* _ptr = this->_ptr;
-            this->_ptr = nullptr;
-            _ptr->~PTR();
-            RelRef(_ptr);
-        }
-    }
     rcgc_ptr& operator = (rcgc_ptr<PTR>& src) {
         if (this->_ptr == src._ptr) {
         }
@@ -48,6 +40,16 @@ public:
     PTR* operator->() const {
         return this->_ptr;
     }
+protected:
+    void disposing() {
+        PTR* p = this->_ptr;
+        if (p != nullptr) {
+            this->_ptr = nullptr;
+            p->~PTR();
+            RelRef(p);
+        }
+    }
+
 protected:
     PTR* _ptr;
 };
