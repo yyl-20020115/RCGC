@@ -14,7 +14,8 @@ class B;
 class A
 {
 public:
-    A() : _ptr_outB1()
+    A() : _ptr_outA1()
+        , _ptr_outB1()
         , _ptr_outB2() {}
     ~A() {
         std::cout << "dtor for object of A:" << std::hex << this << std::endl;
@@ -40,7 +41,8 @@ class D;
 class C
 {
 public:
-    C() : _ptr_outD1()
+    C() : _ptr_outC1()
+        , _ptr_outD1()
         , _ptr_outD2() {}
     ~C() {
         std::cout << "dtor for object of C:" << std::hex << this << std::endl;
@@ -85,7 +87,8 @@ class F;
 class E
 {
 public:
-    E() : _ptr_outF1()
+    E() : _ptr_outE1()
+        , _ptr_outF1()
         , _ptr_outF2() {}
     ~E() {
         std::cout << "dtor for object of E:" << std::hex << this << std::endl;
