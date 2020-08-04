@@ -62,6 +62,9 @@ public:
     }
 public:
     void disposing() {
+        //Should NOT be this->_ptr_outC->disposing() 
+        //which is this function itself.
+        //NOTICE:Don't call self directly!
         this->_ptr_outC.disposing();
     }
 public:
@@ -70,6 +73,7 @@ public:
 
 void C::disposing()
 {
+    //NOTICE:Don't call self directly as above!
     this->_ptr_outC1.disposing();
     this->_ptr_outD1.disposing();
     this->_ptr_outD2.disposing();
