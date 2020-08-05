@@ -159,9 +159,9 @@ int main()
     //native version: 
     //rcgc_n_ptr should be disposed manually by dispose()
     //this works with rcgc_f_ptr when you use std::string as a field member 
-    //and free with finalize()
+    //and free with finalize() inside of finalize() of rcgc_f_ptr wrapped object
     rcgc_n_ptr<std::string> ptr_S(new std::string("this is a string"));
     
-    ptr_S.dispose();
+    ptr_S.finalize();
 
 }

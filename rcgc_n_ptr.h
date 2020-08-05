@@ -28,7 +28,7 @@ public:
     void disposing() {
 
     }
-    void dispose() {
+    void finalize() {
         PTR* p = this->_ptr;
         if (p != nullptr) {
             this->_ptr = nullptr;
