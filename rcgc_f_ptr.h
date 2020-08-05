@@ -50,7 +50,7 @@ public:
     PTR* operator->() const {
         return this->_ptr;
     }
-    PTR* get() {
+    PTR* get() const{
         return this->_ptr;
     }
     PTR* rebind(PTR* p = nullptr) {
