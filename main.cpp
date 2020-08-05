@@ -8,7 +8,7 @@
 #include "rcgc_ptr.h"
 #include "rcgc_d_ptr.h"
 #include "rcgc_f_ptr.h"
-
+#include "rcgc_n_ptr.h"
 
 class B;
 class A
@@ -155,5 +155,13 @@ int main()
     ptr_E->_ptr_outF1 = ptr_F;
     ptr_E->_ptr_outF2 = ptr_F;
     ptr_F->_ptr_outE = ptr_E;
+
+    //native version: 
+    //rcgc_n_ptr should be disposed manually by dispose()
+    //this works with rcgc_f_ptr when you use std::string as a field member 
+    //and free with finalize()
+    rcgc_n_ptr<std::string> ptr_S(new std::string("this is a string"));
+    
+    ptr_S.dispose();
 
 }

@@ -38,6 +38,7 @@ void* rcgc_base::RelRef(void* ptr)
             if (--p->second.first == 0) {
                 _wilds.push_back(std::make_pair(ptr,p->second.second));
                 _refs.erase(p);
+                ptr = nullptr;
             }
         }
     }

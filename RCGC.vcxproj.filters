@@ -38,6 +38,9 @@
     <ClInclude Include="rcgc_f_ptr.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="rcgc_n_ptr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="README.md">

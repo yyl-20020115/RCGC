@@ -147,6 +147,7 @@
     <ClInclude Include="rcgc_base.h" />
     <ClInclude Include="rcgc_d_ptr.h" />
     <ClInclude Include="rcgc_f_ptr.h" />
+    <ClInclude Include="rcgc_n_ptr.h" />
     <ClInclude Include="rcgc_ptr.h" />
   </ItemGroup>
   <ItemGroup>
