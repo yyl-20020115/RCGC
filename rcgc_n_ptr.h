@@ -46,7 +46,7 @@ public:
         }
         return *this;
     }
-    operator bool() {
+    operator bool() const {
         return this->_ptr != nullptr;
     }
     PTR& operator*() const {
@@ -55,7 +55,7 @@ public:
     PTR* operator->() const {
         return this->_ptr;
     }
-    PTR* get() const{
+    PTR* get() const {
         return this->_ptr;
     }
     PTR* rebind(PTR* p = nullptr) {
