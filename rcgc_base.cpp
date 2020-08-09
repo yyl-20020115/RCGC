@@ -1,4 +1,4 @@
-#include "rcgc_ptr.h"
+#include "rcgc_base.h"
 
 std::mutex rcgc_base::_m;
 int rcgc_base::_dp = 0;
