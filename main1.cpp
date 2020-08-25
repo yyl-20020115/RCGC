@@ -9,20 +9,28 @@
 #include "rcgc_d_ptr.h"
 #include "rcgc_f_ptr.h"
 #include "rcgc_n_ptr.h"
-#include "rcgc_c_ptr.h"
 
-class CNode
+class FNode
 {
 public:
     size_t i;
 public:
-    CNode() :i(0), links(new std::vector<rcgc_ptr<CNode>>(),this) {}
-
+    FNode() :i(0),links(new std::vector<rcgc_f_ptr<FNode>>()){}
+    void disposing()
+    {
+        for (auto& link : *this->links)
+        {
+            link.disposing();
+        }
+    }
+    void finalize() {
+        delete this->links;
+    }
 public:
-    rcgc_c_ptr<std::vector<rcgc_ptr<CNode>>> links;
+    std::vector<rcgc_f_ptr<FNode>>* links;
 };
 
-int main() {
+int main1() {
 #ifdef _WIN32
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
@@ -30,10 +38,10 @@ int main() {
 
     rcgc_base::SetAutoCollect(true);
     const size_t MaxNodes = 16;
-    std::vector<rcgc_ptr<CNode>> nodes;
+    std::vector<rcgc_f_ptr<FNode>> nodes;
 
     for (size_t i = 0; i < MaxNodes; i++) {
-        CNode* n = new CNode();
+        FNode* n = new FNode();
         n->i = i;
         nodes.push_back(n);
     }

@@ -17,6 +17,7 @@ protected:
     static void* AddRef(void* ptr, terminating_function tf = nullptr);
     static void* RelRef(void* ptr);
     static size_t GetCount(void* ptr);
+    static void* AddConnection(void* ctr, void* ptr, terminating_function tf = nullptr);
 
     static void CollectThread();
     static void Collect(std::vector<std::pair<void*, terminating_function>>& p_wilds);
@@ -30,6 +31,7 @@ protected:
     static int _dp;
     static int _dm;
     static std::mutex _m;
+    static std::unordered_map<void*, std::pair<std::vector<void*>, terminating_function>> _ctrs;
     static std::unordered_map<void*, std::pair<size_t,terminating_function>> _refs;
     static std::vector<std::pair<void*, terminating_function>> _wilds;
     static std::vector<void*> _breaks;

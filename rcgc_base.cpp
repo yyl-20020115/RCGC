@@ -6,6 +6,8 @@ int rcgc_base::_dm = DefaultMaxDepth;
 
 bool rcgc_base::_ac = false;
 bool rcgc_base::_cl = false;
+
+std::unordered_map<void*, std::pair<std::vector<void*>, terminating_function>> rcgc_base::_ctrs;
 std::unordered_map<void*, std::pair<size_t, terminating_function>> rcgc_base::_refs;
 std::vector<std::pair<void*, terminating_function>> rcgc_base::_wilds;
 std::vector<void*> rcgc_base::_breaks;
@@ -57,6 +59,21 @@ size_t rcgc_base::GetCount(void* ptr)
         }
     }
     return c;
+}
+
+void* rcgc_base::AddConnection(void* ctr, void* ptr, terminating_function tf)
+{
+    if (ctr != nullptr && ptr != nullptr) {
+        auto p = _ctrs.find(ptr);
+        if (p == _ctrs.end()) {
+            auto s = std::make_pair( std::vector<void*>{ptr},tf);
+            _ctrs.insert(std::make_pair(ctr,s));
+        }
+        else {
+            p->second.first.push_back(ptr);
+        }
+    }
+    return ptr;
 }
 
 bool rcgc_base::SetAutoCollect(bool ac)
@@ -121,6 +138,18 @@ void rcgc_base::Collect(std::vector<std::pair<void*, terminating_function>>& p_w
                 }
                 else {
                     free(p->first);
+                }
+                //free ctr-ptrs:
+                auto q = _ctrs.find(p->first);
+                if (q != _ctrs.end()) {
+                    for (auto& r : q->second.first) {
+                        if (q->second.second != nullptr) {
+                            q->second.second(r);
+                        }
+                        else {
+                            free(r);
+                        }
+                    }
                 }
             }
         }

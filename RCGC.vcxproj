@@ -141,11 +141,13 @@
   <ItemGroup>
     <ClCompile Include="bad_sample.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="main1.cpp" />
     <ClCompile Include="main2.cpp" />
     <ClCompile Include="rcgc_base.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="rcgc_base.h" />
+    <ClInclude Include="rcgc_c_ptr.h" />
     <ClInclude Include="rcgc_d_ptr.h" />
     <ClInclude Include="rcgc_f_ptr.h" />
     <ClInclude Include="rcgc_n_ptr.h" />
