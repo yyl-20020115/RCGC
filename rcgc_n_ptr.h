@@ -23,6 +23,7 @@ public:
         AddRef(this->_ptr, terminating_function);
     }
     ~rcgc_n_ptr() {
+
     }
 public:
     void disposing() {

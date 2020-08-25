@@ -28,7 +28,7 @@ public:
         PTR* p = this->_ptr;
         if (p != nullptr) {
             this->_ptr = nullptr;
-            p->~PTR();
+            p->disposing();
             RelRef(p);
         }
     }

@@ -98,7 +98,9 @@ void rcgc_base::CollectThread()
 void rcgc_base::Collect(std::vector<std::pair<void*, terminating_function>>& p_wilds)
 {
     if (p_wilds.size() > 0) {
-        for (auto p = p_wilds.begin(); p != p_wilds.end(); ++p) {
+        std::vector<std::pair<void*, terminating_function>> lp(p_wilds);
+        p_wilds.clear();
+        for (auto p = lp.begin(); p != lp.end(); ++p) {
             if (p->first) {
                 if (p->second != nullptr) {
                     p->second(p->first);
@@ -108,7 +110,6 @@ void rcgc_base::Collect(std::vector<std::pair<void*, terminating_function>>& p_w
                 }
             }
         }
-        p_wilds.clear();
     }
 }
 
