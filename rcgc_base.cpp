@@ -45,6 +45,20 @@ void* rcgc_base::RelRef(void* ptr)
     return ptr;
 }
 
+size_t rcgc_base::GetCount(void* ptr)
+{
+    size_t c = 0;
+    if (ptr != nullptr) {
+        //NOTICE: lock is disabled for now
+        //std::lock_guard<std::mutex> lock(_m);
+        auto p = _refs.find(ptr);
+        if (p != _refs.end()) {
+            c = p->second.first;
+        }
+    }
+    return c;
+}
+
 bool rcgc_base::SetAutoCollect(bool ac)
 {
     return _ac = ac;

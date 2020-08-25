@@ -16,6 +16,8 @@ public:
 protected:
     static void* AddRef(void* ptr, terminating_function tf = nullptr);
     static void* RelRef(void* ptr);
+    static size_t GetCount(void* ptr);
+
     static void CollectThread();
     static void Collect(std::vector<std::pair<void*, terminating_function>>& p_wilds);
 

@@ -13,7 +13,7 @@
 class Node
 {
 public:
-    int i;
+    size_t i;
 public:
     Node() :i(0),links(new std::vector<rcgc_f_ptr<Node>>()){}
     void disposing()
@@ -49,7 +49,7 @@ int main() {
     //full connection
     for (size_t i = 0; i < nodes.size(); i++) {
         for (size_t j = 0; j < nodes.size(); j++) {
-            nodes[i]->links->push_back((nodes[j]));
+            nodes[i]->links->push_back(nodes[j]);
         }
     }
 
