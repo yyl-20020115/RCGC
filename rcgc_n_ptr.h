@@ -15,7 +15,9 @@ public:
     }
 
 public:
-
+    rcgc_n_ptr(void* ctr) :_ptr(new PTR()), _ctr(ctr) {
+        AddConnection(this->_ctr, this->_ptr, terminating_function);
+    }
     rcgc_n_ptr(PTR* ptr = nullptr, void* ctr = nullptr) :_ptr(ptr),_ctr(ctr) {
         AddConnection(this->_ctr, this->_ptr, terminating_function);
     }
@@ -50,4 +52,15 @@ public:
 protected:
     PTR* _ptr;
     void* _ctr;
+};
+
+class rcgc_w_str :public rcgc_n_ptr<std::wstring> {
+public:
+    rcgc_w_str(void* ctr = nullptr) : rcgc_n_ptr(new std::wstring(),ctr) {
+    }
+};
+class rcgc_s_str :public rcgc_n_ptr<std::string> {
+public:
+    rcgc_s_str(void* ctr = nullptr) : rcgc_n_ptr(new std::string(), ctr) {
+    }
 };

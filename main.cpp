@@ -19,13 +19,13 @@ public:
 public:
     CNode() 
         :i(0) 
-        ,links(new std::vector<rcgc_ptr<CNode>>(),this)
-        ,name(new std::wstring(L"abcd"),this)
+        ,links(this)
+        ,name(this)
     {}
 
 public:
-    rcgc_n_ptr<std::wstring> name;
-    rcgc_c_ptr<std::vector<rcgc_ptr<CNode>>> links;
+    rcgc_w_str name;
+    rcgc_ptr_vector<CNode> links;
 };
 
 int main() {
@@ -35,7 +35,7 @@ int main() {
     //srand((unsigned int)time(nullptr));
 
     rcgc_base::SetAutoCollect(true);
-    const size_t MaxNodes = 1;
+    const size_t MaxNodes = 4;
     std::vector<rcgc_ptr<CNode>> nodes;
 
     for (size_t i = 0; i < MaxNodes; i++) {

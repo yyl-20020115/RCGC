@@ -48,3 +48,17 @@ protected:
     PTR* _ptr;
     void* _ctr;
 };
+
+template<class PTR>
+class rcgc_vector : public rcgc_c_ptr<std::vector<PTR>> {
+public:
+    rcgc_vector(void* ctr = nullptr) : rcgc_c_ptr<std::vector<PTR>>(new std::vector<PTR>(),ctr) {
+    }
+};
+template<class PTR>
+class rcgc_ptr_vector : public rcgc_vector<rcgc_ptr<PTR>> {
+public:
+    rcgc_ptr_vector(void* ctr = nullptr) 
+        : rcgc_vector<rcgc_ptr<PTR>>(ctr) {
+    }
+};

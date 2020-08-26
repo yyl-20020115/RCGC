@@ -18,11 +18,13 @@ public:
     }
 public:
     void disposing() {
-        PTR* p = this->_ptr;
-        if (p != nullptr) {
-            this->_ptr = nullptr;
-            p->~PTR();
-            RelRef(p);
+        if (this != nullptr) {
+            PTR* p = this->_ptr;
+            if (p != nullptr) {
+                this->_ptr = nullptr;
+                p->~PTR();
+                RelRef(p);
+            }
         }
     }
     rcgc_ptr& operator = (rcgc_ptr<PTR>& src) {
