@@ -1,5 +1,6 @@
 #pragma once
-#include "rcgc_base.h"
+#include "rcgc_d_ptr.h"
+#include "rcgc_f_ptr.h"
 
 //Container version of rcgc_ptr (wraps containers)
 template<class PTR>
@@ -60,5 +61,20 @@ class rcgc_ptr_vector : public rcgc_vector<rcgc_ptr<PTR>> {
 public:
     rcgc_ptr_vector(void* ctr = nullptr) 
         : rcgc_vector<rcgc_ptr<PTR>>(ctr) {
+    }
+};
+
+template<class PTR>
+class rcgc_d_ptr_vector : public rcgc_vector<rcgc_d_ptr<PTR>> {
+public:
+    rcgc_d_ptr_vector(void* ctr = nullptr)
+        : rcgc_vector<rcgc_d_ptr<PTR>>(ctr) {
+    }
+};
+template<class PTR>
+class rcgc_f_ptr_vector : public rcgc_vector<rcgc_f_ptr<PTR>> {
+public:
+    rcgc_f_ptr_vector(void* ctr = nullptr)
+        : rcgc_vector<rcgc_f_ptr<PTR>>(ctr) {
     }
 };

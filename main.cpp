@@ -18,14 +18,52 @@ public:
     size_t i;
 public:
     CNode() 
-        :i(0) 
-        ,links(this)
-        ,name(this)
+        : i(0) 
+        , links(this)
+        , name(this)
     {}
 
 public:
     rcgc_w_str name;
     rcgc_ptr_vector<CNode> links;
+};
+class DNode
+{
+public:
+    size_t i;
+public:
+    DNode()
+        : i(0)
+        , links(this)
+        , name(this)
+    {}
+    void disposing() {
+        this->links.disposing();
+    }
+public:
+    rcgc_w_str name;
+    rcgc_d_ptr_vector<DNode> links;
+};
+
+class FNode
+{
+public:
+    size_t i;
+public:
+    FNode()
+        : i(0)
+        , links(this)
+        , name(this)
+    {}
+    void disposing() {
+        this->links.disposing();
+    }
+    void finalize() {
+
+    }
+public:
+    rcgc_w_str name;
+    rcgc_f_ptr_vector<FNode> links;
 };
 
 int main() {
