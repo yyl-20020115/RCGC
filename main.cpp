@@ -80,9 +80,15 @@ int main() {
     rcgc_ptr_vector<CNode> cnodes;
 
     for (size_t i = 0; i < MaxNodes; i++) {
-        CNode* n = new CNode();
-        n->i = i;
-        (*cnodes).push_back(n);
+        CNode* c = new CNode();
+        c->i = i;
+        (*cnodes).push_back(c);
+        DNode* d = new DNode();
+        d->i = i;
+        (*dnodes).push_back(d);
+        FNode* f = new FNode();
+        f->i = i;
+        (*fnodes).push_back(f);
     }
 
     //full connection
@@ -91,6 +97,17 @@ int main() {
             (*cnodes)[i]->links->push_back((*cnodes)[j]);
         }
     }
+    for (size_t i = 0; i < (*dnodes).size(); i++) {
+        for (size_t j = 0; j < (*dnodes).size(); j++) {
+            (*dnodes)[i]->links->push_back((*dnodes)[j]);
+        }
+    }
+    for (size_t i = 0; i < (*fnodes).size(); i++) {
+        for (size_t j = 0; j < (*fnodes).size(); j++) {
+            (*fnodes)[i]->links->push_back((*fnodes)[j]);
+        }
+    }
+
     rcgc_w_str mystr(L"Hello World");
     rcgc_w_str mystr2 = L"Hello 2";
 
