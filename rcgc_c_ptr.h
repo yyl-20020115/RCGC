@@ -59,28 +59,31 @@ protected:
 template<class PTR>
 class rcgc_vector : public rcgc_c_ptr<std::vector<PTR>> {
 public:
-    rcgc_vector(void* ctr = nullptr) : rcgc_c_ptr<std::vector<PTR>>(new std::vector<PTR>(),ctr) {
-    }
+    rcgc_vector(void* ctr = nullptr) : rcgc_c_ptr<std::vector<PTR>>(new std::vector<PTR>(),ctr) {}
+    rcgc_vector(std::vector<PTR>* v, void* ctr = nullptr) : rcgc_c_ptr<std::vector<PTR>>(v, ctr) {}
 };
 template<class PTR>
 class rcgc_ptr_vector : public rcgc_vector<rcgc_ptr<PTR>> {
 public:
-    rcgc_ptr_vector(void* ctr = nullptr) 
-        : rcgc_vector<rcgc_ptr<PTR>>(ctr) {
-    }
+    rcgc_ptr_vector(void* ctr = nullptr)
+        : rcgc_vector<rcgc_ptr<PTR>>(ctr) {}
+    rcgc_ptr_vector(std::vector<rcgc_ptr<PTR>>* v, void* ctr = nullptr)
+        : rcgc_vector<rcgc_ptr<PTR>>(v, ctr) {}
 };
 
 template<class PTR>
 class rcgc_d_ptr_vector : public rcgc_vector<rcgc_d_ptr<PTR>> {
 public:
     rcgc_d_ptr_vector(void* ctr = nullptr)
-        : rcgc_vector<rcgc_d_ptr<PTR>>(ctr) {
-    }
+        : rcgc_vector<rcgc_d_ptr<PTR>>(ctr) {}
+    rcgc_d_ptr_vector(std::vector<rcgc_d_ptr<PTR>>*v, void* ctr = nullptr)
+        : rcgc_vector<rcgc_d_ptr<PTR>>(v,ctr) {}
 };
 template<class PTR>
 class rcgc_f_ptr_vector : public rcgc_vector<rcgc_f_ptr<PTR>> {
 public:
     rcgc_f_ptr_vector(void* ctr = nullptr)
-        : rcgc_vector<rcgc_f_ptr<PTR>>(ctr) {
-    }
+        : rcgc_vector<rcgc_f_ptr<PTR>>(ctr) {}
+    rcgc_f_ptr_vector(std::vector<rcgc_f_ptr<PTR>>* v,void* ctr = nullptr)
+        : rcgc_vector<rcgc_f_ptr<PTR>>(v,ctr) {}
 };

@@ -60,11 +60,13 @@ protected:
 
 class rcgc_w_str :public rcgc_n_ptr<std::wstring> {
 public:
-    rcgc_w_str(void* ctr = nullptr) : rcgc_n_ptr(new std::wstring(),ctr) {
-    }
+    rcgc_w_str(void* ctr = nullptr) : rcgc_n_ptr(new std::wstring(), ctr) {}
+    rcgc_w_str(const wchar_t* s = L"", void* ctr = nullptr) : rcgc_n_ptr(new std::wstring(s), ctr) {}
+    rcgc_w_str(std::wstring* s,void* ctr = nullptr) : rcgc_n_ptr(s,ctr) {}
 };
 class rcgc_s_str :public rcgc_n_ptr<std::string> {
 public:
-    rcgc_s_str(void* ctr = nullptr) : rcgc_n_ptr(new std::string(), ctr) {
-    }
+    rcgc_s_str(void* ctr = nullptr) : rcgc_n_ptr(new std::string(), ctr) {}
+    rcgc_s_str(const char* s ="", void* ctr = nullptr) : rcgc_n_ptr(new std::string(s), ctr) {}
+    rcgc_s_str(std::string* s,void* ctr = nullptr) : rcgc_n_ptr(s, ctr) {}
 };

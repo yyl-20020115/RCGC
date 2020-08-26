@@ -38,7 +38,6 @@ public:
         , name(this)
     {}
     void disposing() {
-        this->name.disposing();
         this->links.disposing();
     }
 public:
@@ -60,7 +59,7 @@ public:
         this->links.disposing();
     }
     void finalize() {
-
+        //this is the detor
     }
 public:
     rcgc_w_str name;
@@ -75,22 +74,25 @@ int main() {
 
     rcgc_base::SetAutoCollect(true);
     const size_t MaxNodes = 4;
-    rcgc_ptr_vector<CNode> nodes;
+    rcgc_d_ptr_vector<DNode> dnodes;
+    rcgc_f_ptr_vector<FNode> fnodes;
+
+    rcgc_ptr_vector<CNode> cnodes;
 
     for (size_t i = 0; i < MaxNodes; i++) {
         CNode* n = new CNode();
         n->i = i;
-        (*nodes).push_back(n);
+        (*cnodes).push_back(n);
     }
 
     //full connection
-    for (size_t i = 0; i < (*nodes).size(); i++) {
-        for (size_t j = 0; j < (*nodes).size(); j++) {
-            (*nodes)[i]->links->push_back((*nodes)[j]);
+    for (size_t i = 0; i < (*cnodes).size(); i++) {
+        for (size_t j = 0; j < (*cnodes).size(); j++) {
+            (*cnodes)[i]->links->push_back((*cnodes)[j]);
         }
     }
-    rcgc_w_str mystr;
-    *mystr = L"Hello World";
+    rcgc_w_str mystr(L"Hello World");
+    rcgc_w_str mystr2 = L"Hello 2";
 
     return 0;
 }
