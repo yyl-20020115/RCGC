@@ -5,6 +5,7 @@
 #endif
 
 #include <iostream>
+#include <string>
 #include "rcgc_ptr.h"
 #include "rcgc_d_ptr.h"
 #include "rcgc_f_ptr.h"
@@ -16,9 +17,14 @@ class CNode
 public:
     size_t i;
 public:
-    CNode() :i(0), links(new std::vector<rcgc_ptr<CNode>>(),this) {}
+    CNode() 
+        :i(0) 
+        ,links(new std::vector<rcgc_ptr<CNode>>(),this)
+        ,name(new std::wstring(L"abcd"),this)
+    {}
 
 public:
+    rcgc_n_ptr<std::wstring> name;
     rcgc_c_ptr<std::vector<rcgc_ptr<CNode>>> links;
 };
 
@@ -29,7 +35,7 @@ int main() {
     //srand((unsigned int)time(nullptr));
 
     rcgc_base::SetAutoCollect(true);
-    const size_t MaxNodes = 16;
+    const size_t MaxNodes = 1;
     std::vector<rcgc_ptr<CNode>> nodes;
 
     for (size_t i = 0; i < MaxNodes; i++) {

@@ -31,7 +31,7 @@ protected:
     static int _dp;
     static int _dm;
     static std::mutex _m;
-    static std::unordered_map<void*, std::pair<std::vector<void*>, terminating_function>> _ctrs;
+    static std::unordered_map<void*, std::vector<std::pair<void*, terminating_function>>> _ctrs;
     static std::unordered_map<void*, std::pair<size_t,terminating_function>> _refs;
     static std::vector<std::pair<void*, terminating_function>> _wilds;
     static std::vector<void*> _breaks;
