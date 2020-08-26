@@ -38,6 +38,7 @@ public:
         , name(this)
     {}
     void disposing() {
+        this->name.disposing();
         this->links.disposing();
     }
 public:
@@ -74,20 +75,22 @@ int main() {
 
     rcgc_base::SetAutoCollect(true);
     const size_t MaxNodes = 4;
-    std::vector<rcgc_ptr<CNode>> nodes;
+    rcgc_ptr_vector<CNode> nodes;
 
     for (size_t i = 0; i < MaxNodes; i++) {
         CNode* n = new CNode();
         n->i = i;
-        nodes.push_back(n);
+        (*nodes).push_back(n);
     }
 
     //full connection
-    for (size_t i = 0; i < nodes.size(); i++) {
-        for (size_t j = 0; j < nodes.size(); j++) {
-            nodes[i]->links->push_back(nodes[j]);
+    for (size_t i = 0; i < (*nodes).size(); i++) {
+        for (size_t j = 0; j < (*nodes).size(); j++) {
+            (*nodes)[i]->links->push_back((*nodes)[j]);
         }
     }
+    rcgc_w_str mystr;
+    *mystr = L"Hello World";
 
     return 0;
 }

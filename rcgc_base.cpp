@@ -1,6 +1,7 @@
 #include "rcgc_base.h"
 
 std::mutex rcgc_base::_m;
+size_t rcgc_base::Mark = 0;
 int rcgc_base::_dp = 0;
 int rcgc_base::_dm = DefaultMaxDepth;
 
@@ -61,8 +62,12 @@ size_t rcgc_base::GetCount(void* ptr)
     return c;
 }
 
-void* rcgc_base::AddConnection(void* ctr, void* ptr, terminating_function tf)
+void* rcgc_base::AddConnection(void*& ctr, void* ptr, terminating_function tf, bool autoctr)
 {
+    if (autoctr && ctr == nullptr) {
+        ctr = &rcgc_base::Mark;
+    }
+
     if (ctr != nullptr && ptr != nullptr) {
         auto p = _ctrs.find(ctr);
         if (p == _ctrs.end()) {
@@ -74,6 +79,11 @@ void* rcgc_base::AddConnection(void* ctr, void* ptr, terminating_function tf)
         }
     }
     return ptr;
+}
+
+bool rcgc_base::IsMarkPointer(void* ctr)
+{
+    return ctr == &rcgc_base::Mark;
 }
 
 bool rcgc_base::SetAutoCollect(bool ac)

@@ -17,6 +17,12 @@ public:
     }
     ~rcgc_c_ptr() {
         this->disposing();
+        //if the container is wild, we terminate it instantly
+        PTR* p = this->_ptr;
+        if (p != nullptr && IsMarkPointer(this->_ctr)) {
+            this->_ptr = nullptr;
+            terminating_function(p);
+        }
     }
 
 public:

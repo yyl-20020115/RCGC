@@ -8,6 +8,7 @@ typedef void (*terminating_function)(void* p);
 
 class rcgc_base {
 public:
+    static size_t Mark;
     static const int DefaultMaxDepth = 1024;
 public:
     static bool SetAutoCollect(bool ac);
@@ -17,7 +18,8 @@ protected:
     static void* AddRef(void* ptr, terminating_function tf = nullptr);
     static void* RelRef(void* ptr);
     static size_t GetCount(void* ptr);
-    static void* AddConnection(void* ctr, void* ptr, terminating_function tf = nullptr);
+    static void* AddConnection(void*& ctr, void* ptr, terminating_function tf = nullptr, bool autoctr=true);
+    static bool IsMarkPointer(void* ctr);
 
     static void CollectThread();
     static void Collect(std::vector<std::pair<void*, terminating_function>>& p_wilds);

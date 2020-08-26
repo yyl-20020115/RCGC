@@ -29,7 +29,11 @@ public:
         
     }
     void finalize() {
-        
+        PTR* p = this->_ptr;
+        if (p!=nullptr && IsMarkPointer(this->_ctr)) {
+            this->_ptr = nullptr;
+            terminating_function(p);
+        }
     }
     operator bool() const {
         return this->_ptr != nullptr;
